@@ -1,0 +1,91 @@
+# ========================
+# Python
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+*.whl
+.venv/
+venv/
+env/
+
+# ========================
+# Node / Frontend
+# ========================
+node_modules/
+frontend/dist/
+frontend/build/
+.npm
+*.tsbuildinfo
+
+# ========================
+# Environment & Secrets
+# ========================
+.env
+.env.local
+.env.*.local
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+
+# ========================
+# Data & Uploads
+# ========================
+uploads/
+chroma_data/
+*.sqlite3
+
+# ========================
+# IDEs & Editors
+# ========================
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ========================
+# Testing & Coverage
+# ========================
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.pytest_cache/
+.mypy_cache/
+
+# ========================
+# Docker
+# ========================
+*.log
+
+# ========================
+# Misc
+# ========================
+*.bak
+*.tmp
+
+# Environment
+backend/venv/
+backend/.env
+__pycache__/
+*.pyc
+
+# Data (don't commit these)
+uploads/
+chroma_data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
