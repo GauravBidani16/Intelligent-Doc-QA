@@ -68,6 +68,14 @@ class VectorStore:
                 score=round(score, 4),
             ))
         return search_results
+    
+    def get_all_documents(self, collection_name: str = "default") -> dict:
+        """Retrieve all documents and metadata from a collection for BM25 indexing."""
+        collection = self._get_or_create_collection(collection_name)
+        results = collection.get(
+            include=["documents", "metadatas"]
+        )
+        return results
 
     def delete_collection(self, collection_name: str):
         try:

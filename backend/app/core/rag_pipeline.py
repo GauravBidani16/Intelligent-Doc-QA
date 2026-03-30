@@ -14,6 +14,7 @@ from backend.app.core.embedder import EmbeddingService
 from backend.app.core.vector_store import VectorStore, SearchResult
 from backend.app.core.llm_service import LLMService
 from backend.app.config import settings
+from backend.app.core.hybrid_retriever import HybridRetriever
 
 logger = logging.getLogger(__name__)
 
@@ -31,10 +32,12 @@ class RAGPipeline:
         embedder: EmbeddingService,
         vector_store: VectorStore,
         llm_service: LLMService,
+        hybrid_retriever: HybridRetriever = None,
     ):
         self.embedder = embedder
         self.vector_store = vector_store
         self.llm_service = llm_service
+        self.hybrid_retriever = hybrid_retriever
         self.chunker = RecursiveChunker(
             chunk_size=settings.CHUNK_SIZE,
             overlap=settings.CHUNK_OVERLAP,
@@ -81,15 +84,21 @@ class RAGPipeline:
 
     def query(self, question: str, collection_name: str = "default") -> QueryResponse:
         """Full RAG query: embed question → retrieve → generate answer."""
-        # 1. Embed the query
-        query_embedding = self.embedder.embed_query(question)
-
-        # 2. Retrieve relevant chunks
-        results: List[SearchResult] = self.vector_store.search(
-            query_embedding=query_embedding,
-            collection_name=collection_name,
-            top_k=settings.TOP_K,
-        )
+        # 1. Retrieve relevant chunks (hybrid or dense based on config)
+        if settings.RETRIEVAL_MODE == "hybrid" and self.hybrid_retriever:
+            results = self.hybrid_retriever.search(
+                query=question,
+                collection_name=collection_name,
+                top_k=settings.TOP_K,
+                alpha=settings.HYBRID_ALPHA,
+            )
+        else:
+            query_embedding = self.embedder.embed_query(question)
+            results = self.vector_store.search(
+                query_embedding=query_embedding,
+                collection_name=collection_name,
+                top_k=settings.TOP_K,
+            )
 
         if not results:
             return QueryResponse(
@@ -98,13 +107,13 @@ class RAGPipeline:
                 query=question,
             )
 
-        # 3. Build context for LLM
+        # 2. Build context for LLM
         context_chunks = [
             {"text": r.chunk_text, "source": r.metadata.get("source", "unknown"), "score": r.score}
             for r in results
         ]
 
-        # 4. Generate answer
+        # 3. Generate answer
         answer = self.llm_service.generate(question, context_chunks)
 
         return QueryResponse(
