@@ -36,6 +36,9 @@ class Settings(BaseSettings):
     TOP_K: int = 5
     HYBRID_ALPHA: float = 0.5
     RETRIEVAL_MODE: str = "hybrid"
+    
+    RERANKER_MODEL: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    RERANK_ENABLED: bool = True
 
 
     class Config:
