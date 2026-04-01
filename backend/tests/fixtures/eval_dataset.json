@@ -1,0 +1,165 @@
+[
+  {
+    "question": "When was NovaTech Solutions founded and by whom?",
+    "expected_answer": "NovaTech Solutions was founded in 2011 by Dr. Priya Shankar and Marcus Ellison in Austin, Texas.",
+    "expected_keywords": [
+      "2011",
+      "Priya Shankar",
+      "Marcus Ellison",
+      "Austin"
+    ],
+    "type": "factual"
+  },
+  {
+    "question": "What is the pricing for Beacon Core Professional tier?",
+    "expected_answer": "Beacon Core Professional tier is priced at $35 per host per month.",
+    "expected_keywords": [
+      "35",
+      "per host per month",
+      "Professional"
+    ],
+    "type": "factual"
+  },
+  {
+    "question": "How does SentinelNet reduce alert noise?",
+    "expected_answer": "SentinelNet is a transformer-based ML model that reduces alert noise by correlating related events and suppressing duplicates. It reduced mean alert volume by 64% compared to threshold-based alerting.",
+    "expected_keywords": [
+      "transformer",
+      "correlating",
+      "suppressing",
+      "64%"
+    ],
+    "type": "semantic"
+  },
+  {
+    "question": "What is the company's annual recurring revenue?",
+    "expected_answer": "NovaTech's annual recurring revenue reached $187 million in Q4 2025, representing 28% year-over-year growth.",
+    "expected_keywords": [
+      "187 million",
+      "Q4 2025",
+      "28%"
+    ],
+    "type": "factual"
+  },
+  {
+    "question": "What are the latest product announcements from NovaTech?",
+    "expected_answer": "In March 2026, NovaTech announced a strategic partnership with Snowflake. In February 2026, Beacon Alerts v4.0 was released with multi-signal anomaly detection. In January 2026, a new office was opened in Berlin.",
+    "expected_keywords": [
+      "Snowflake",
+      "March 2026",
+      "Beacon Alerts v4.0",
+      "Berlin"
+    ],
+    "type": "keyword"
+  },
+  {
+    "question": "How does Beacon RCA identify root causes of incidents?",
+    "expected_answer": "Beacon RCA uses causal inference algorithms, building a real-time dependency graph of monitored services and using Granger causality tests and graph neural networks to trace fault propagation paths.",
+    "expected_keywords": [
+      "causal inference",
+      "dependency graph",
+      "Granger causality",
+      "graph neural networks"
+    ],
+    "type": "semantic"
+  },
+  {
+    "question": "What is the median time to root cause identification with Beacon RCA?",
+    "expected_answer": "The median time to root cause identification is 3.2 minutes, down from 47 minutes manual average.",
+    "expected_keywords": [
+      "3.2 minutes",
+      "47 minutes"
+    ],
+    "type": "factual"
+  },
+  {
+    "question": "What cloud providers does NovaTech use for its infrastructure?",
+    "expected_answer": "NovaTech runs on a multi-cloud architecture spanning AWS (primary, us-east-1 and eu-west-1) and GCP (secondary, us-central1).",
+    "expected_keywords": [
+      "AWS",
+      "GCP",
+      "us-east-1",
+      "eu-west-1",
+      "us-central1"
+    ],
+    "type": "factual"
+  },
+  {
+    "question": "What is Beacon Copilot and when is it expected to launch?",
+    "expected_answer": "Beacon Copilot is an LLM-powered natural language interface for querying observability data, expected to launch in Q3 2026. It will use a fine-tuned open-source LLM with RAG over customer-specific runbooks.",
+    "expected_keywords": [
+      "LLM",
+      "natural language",
+      "Q3 2026",
+      "RAG"
+    ],
+    "type": "semantic"
+  },
+  {
+    "question": "What security certifications does NovaTech hold?",
+    "expected_answer": "NovaTech holds SOC 2 Type II, ISO 27001:2022, offers HIPAA BAA for healthcare customers, is GDPR compliant, and has FedRAMP authorization in progress.",
+    "expected_keywords": [
+      "SOC 2",
+      "ISO 27001",
+      "HIPAA",
+      "GDPR",
+      "FedRAMP"
+    ],
+    "type": "keyword"
+  },
+  {
+    "question": "How much cloud cost savings did Atlas Financial Group achieve?",
+    "expected_answer": "Atlas Financial Group achieved $1.2 million in annual cloud cost savings using Beacon Compass.",
+    "expected_keywords": [
+      "1.2M",
+      "Atlas Financial",
+      "Beacon Compass"
+    ],
+    "type": "factual"
+  },
+  {
+    "question": "What is the parental leave policy at NovaTech?",
+    "expected_answer": "NovaTech offers 16 weeks paid parental leave for primary caregivers and 8 weeks paid for secondary caregivers.",
+    "expected_keywords": [
+      "16 weeks",
+      "8 weeks",
+      "primary caregiver",
+      "secondary caregiver"
+    ],
+    "type": "factual"
+  },
+  {
+    "question": "What caused the most significant recent incident at NovaTech?",
+    "expected_answer": "On June 14, 2025, a misconfigured Kafka partition rebalance caused a 43-minute ingestion delay affecting 12% of customers.",
+    "expected_keywords": [
+      "Kafka",
+      "partition rebalance",
+      "43-minute",
+      "12%",
+      "June 14"
+    ],
+    "type": "semantic"
+  },
+  {
+    "question": "What should you do if the Beacon agent is not reporting data?",
+    "expected_answer": "Verify the agent is running with systemctl status, check connectivity to the ingestion endpoint, ensure the API key matches, and review agent logs for errors.",
+    "expected_keywords": [
+      "systemctl",
+      "beacon-agent",
+      "API key",
+      "agent.log"
+    ],
+    "type": "keyword"
+  },
+  {
+    "question": "Who is the Distinguished Engineer at NovaTech and what do they lead?",
+    "expected_answer": "Dr. Elena Vasquez is the Distinguished Engineer (E6), and she leads the Prism query engine team.",
+    "expected_keywords": [
+      "Elena Vasquez",
+      "Distinguished Engineer",
+      "Prism",
+      "query engine"
+    ],
+    "type": "factual"
+  }
+]
