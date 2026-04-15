@@ -1,5 +1,5 @@
 """
-Wraps sentence-transformers. Model loaded once (singleton via DI).
+Embedding Sercive to embed the text and queries using the Embedding model (from .env)
 """
 
 import numpy as np
@@ -19,7 +19,7 @@ class EmbeddingService:
         logger.info("Embedding model loaded.")
 
     def embed_texts(self, texts: List[str], batch_size: int = 32) -> np.ndarray:
-        """Embed a list of texts. Returns normalized embeddings."""
+        # Embed a list of texts. Returns normalized embeddings.
         embeddings = self.model.encode(
             texts,
             batch_size=batch_size,
@@ -29,5 +29,5 @@ class EmbeddingService:
         return np.array(embeddings)
 
     def embed_query(self, query: str) -> np.ndarray:
-        """Embed a single query string."""
+        # Embed a single query string.
         return self.embed_texts([query])[0]

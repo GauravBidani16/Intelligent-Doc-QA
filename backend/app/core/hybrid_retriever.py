@@ -26,7 +26,7 @@ class HybridRetriever:
 		min_score = min(scores)
 		max_score = max(scores)
 
-		# All scores identical — give everything equal weight
+		# All scores identical - give everything equal weight
 		if max_score == min_score:
 			return [
 				SearchResult(chunk_text=r.chunk_text, metadata=r.metadata, score=1.0)
@@ -45,12 +45,12 @@ class HybridRetriever:
 	def search(self, query: str, collection_name: str = "default", top_k: int = 5, alpha: float = 0.7,) -> List[SearchResult]:
 		"""
 		Hybrid search combining dense and BM25 retrieval.
-		alpha=1.0 is pure dense, alpha=0.0 is pure BM25.
+		alpha = 1 is pure dense, alpha = 0 is pure BM25.
 		"""
-		# Step 1: Build BM25 index from current collection
+		# Build BM25 index from current collection
 		self.bm25.build_index(self.vector_store, collection_name)
 
-		# Step 2: Run both searches (fetch more than top_k so fusion has enough to work with)
+		# Run both searches (fetch more than top_k so fusion has enough to work with)
 		fetch_k = top_k * 3
 
 		# Dense search
@@ -60,18 +60,18 @@ class HybridRetriever:
 		# BM25 search
 		bm25_results = self.bm25.search(query, fetch_k)
 
-		# Step 3: Normalize both score sets to 0-1
+		# Normalize both score sets to 0-1
 		dense_normalized = self._normalize_scores(dense_results)
 		bm25_normalized = self._normalize_scores(bm25_results)
 
-		# Step 4: Build lookup dicts keyed by chunk text
+		# Build lookup dicts keyed by chunk text
 		dense_map = {r.chunk_text: r.score for r in dense_normalized}
 		bm25_map = {r.chunk_text: r.score for r in bm25_normalized}
 
-		# Step 5: Get all unique chunks from both result sets
+		# Get all unique chunks from both result sets
 		all_chunks = set(dense_map.keys()) | set(bm25_map.keys())
 
-		# Step 6: Compute fused scores
+		# Compute fused scores
 		fused_results = []
 		for chunk_text in all_chunks:
 			dense_score = dense_map.get(chunk_text, 0.0)
@@ -91,6 +91,6 @@ class HybridRetriever:
 				score=round(fused_score, 4),
 			))
 
-		# Step 7: Sort by fused score and return top_k
+		# Sort by fused score and return top_k
 		fused_results.sort(key=lambda r: r.score, reverse=True)
 		return fused_results[:top_k]

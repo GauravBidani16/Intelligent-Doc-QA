@@ -1,6 +1,6 @@
 """
 Strategy pattern: abstract base + concrete parsers for each file type.
-Extensible — add new parsers without touching existing code.
+This is Extensible so we can add new parsers without touching existing code.
 """
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -30,7 +30,7 @@ class DocumentParser(ABC):
 
 class PDFParser(DocumentParser):
     def parse(self, file_path: str) -> ExtractedDocument:
-        import fitz  # PyMuPDF
+        import fitz
         doc = fitz.open(file_path)
         pages = []
         full_text = []
@@ -71,7 +71,7 @@ class TextParser(DocumentParser):
         )
 
 
-# Factory — maps file extension to parser
+# Map file extension to correct parser
 PARSER_MAP = {
     ".pdf": PDFParser,
     ".docx": DOCXParser,

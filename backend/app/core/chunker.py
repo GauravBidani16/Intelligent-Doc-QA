@@ -1,6 +1,5 @@
 """
-Recursive chunker: splits by paragraphs → sentences → words.
-Uses tiktoken for accurate token counting.
+Recursive chunker: splits by paragraphs into sentences and further into words.
 """
 from dataclasses import dataclass, field
 from typing import List, Dict
@@ -24,7 +23,7 @@ class RecursiveChunker:
     def _split_into_sentences(self, text: str) -> List[str]:
         """Split text into sentences using regex (no NLTK dependency)."""
         import re
-        # Split on period, question mark, or exclamation followed by space or end
+        # Split on period, question mark, or exclamation followed by space or end to maintain natural boundaries
         sentences = re.split(r'(?<=[.!?])\s+', text.strip())
         return [s for s in sentences if s.strip()]
 
@@ -57,7 +56,7 @@ class RecursiveChunker:
                     token_count=current_tokens,
                 ))
 
-                # Overlap: keep last few sentences that fit within overlap budget
+                # Overlap: keep last few sentences that fit within overlap budget - to keep continuity (important for context)
                 overlap_sentences = []
                 overlap_tokens = 0
                 for s in reversed(current_sentences):
@@ -73,7 +72,6 @@ class RecursiveChunker:
             current_sentences.append(sentence)
             current_tokens += sentence_tokens
 
-        # Don't forget the last chunk
         if current_sentences:
             chunk_text = " ".join(current_sentences)
             chunks.append(Chunk(

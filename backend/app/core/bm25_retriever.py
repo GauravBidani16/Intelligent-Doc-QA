@@ -18,14 +18,14 @@ class BM25Retriever:
 		self.ids = []
 
 	def _tokenize(self, text: str) -> List[str]:
-		"""Simple word tokenization: lowercase, remove punctuation, split on whitespace."""
+		#Simple word tokenization: lowercase, remove punctuation, split on whitespace
 		text = text.lower()
 		text = re.sub(r'[^\w\s]', ' ', text)
 		tokens = text.split()
-		return [t for t in tokens if len(t) > 1]  # drop single-char token
+		return [t for t in tokens if len(t) > 1]
 	
 	def build_index(self, vector_store: VectorStore, collection_name: str = "default"):
-		"""Build BM25 index from all documents in a ChromaDB collection."""
+		#Build BM25 index from all documents in a ChromaDB collection.
 		results = vector_store.get_all_documents(collection_name)
 
 		self.documents = results["documents"]
@@ -39,7 +39,7 @@ class BM25Retriever:
 		logger.info(f"BM25 index built with {len(self.documents)} documents")
 
 	def search(self, query: str, top_k: int = 5) -> List[SearchResult]:
-		"""Search the BM25 index and return ranked results."""
+		#Search the BM25 index and return ranked results.
 		if self.index is None:
 			logger.warning("BM25 index not built. Call build_index() first.")
 			return []
@@ -47,7 +47,7 @@ class BM25Retriever:
 		tokenized_query = self._tokenize(query)
 		scores = self.index.get_scores(tokenized_query)
 
-		# Get top_k indices sorted by score (highest first)
+		# Get top_k indices sorted by score
 		ranked_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_k]
 
 		results = []

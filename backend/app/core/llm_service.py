@@ -1,5 +1,5 @@
 """
-Abstraction over OpenAI / Anthropic. Swap providers via config.
+LLM Service and functionality to swap providers via config
 """
 from backend.app.config import settings
 from typing import List, Dict
@@ -72,7 +72,6 @@ class LLMService:
             return response.content[0].text
 
         elif self.provider == "gemini":
-            # Gemini combines system + user into a single prompt
             full_prompt = f"{system_prompt}\n\n{user_prompt}"
             response = self.client.generate_content(
                 full_prompt,
