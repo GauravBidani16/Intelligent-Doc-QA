@@ -103,7 +103,7 @@ Inteligent-Doc-QA/
 **1. Clone the repository**
 
 ```bash
-git clone https://github.com/<your-username>/Inteligent-Doc-QA.git
+git clone https://github.com/GauravBidani16/Intelligent-Doc-QA
 cd Inteligent-Doc-QA
 ```
 
