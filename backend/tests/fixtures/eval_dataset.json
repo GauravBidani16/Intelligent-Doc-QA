@@ -1,165 +1,182 @@
 [
   {
-    "question": "When was NovaTech Solutions founded and by whom?",
-    "expected_answer": "NovaTech Solutions was founded in 2011 by Dr. Priya Shankar and Marcus Ellison in Austin, Texas.",
-    "expected_keywords": [
-      "2011",
-      "Priya Shankar",
-      "Marcus Ellison",
-      "Austin"
-    ],
-    "type": "factual"
+    "id": 1,
+    "category": "single_chunk_factual",
+    "question": "What is the pricing for Beacon RCA?",
+    "expected_answer": "$12 per host per month, available as an add-on for Professional tier or included in Enterprise tier.",
+    "expected_keywords": ["12", "per host per month", "add-on", "Professional", "Enterprise"],
+    "relevant_section": "Product Line > Beacon RCA",
+    "difficulty": "easy"
   },
   {
-    "question": "What is the pricing for Beacon Core Professional tier?",
-    "expected_answer": "Beacon Core Professional tier is priced at $35 per host per month.",
-    "expected_keywords": [
-      "35",
-      "per host per month",
-      "Professional"
-    ],
-    "type": "factual"
+    "id": 2,
+    "category": "single_chunk_factual",
+    "question": "How many production deployments does NovaTech average per week?",
+    "expected_answer": "47 production deployments per week.",
+    "expected_keywords": ["47", "deployments", "per week"],
+    "relevant_section": "Engineering & Architecture > Deployment & CI/CD",
+    "difficulty": "easy"
   },
   {
-    "question": "How does SentinelNet reduce alert noise?",
-    "expected_answer": "SentinelNet is a transformer-based ML model that reduces alert noise by correlating related events and suppressing duplicates. It reduced mean alert volume by 64% compared to threshold-based alerting.",
-    "expected_keywords": [
-      "transformer",
-      "correlating",
-      "suppressing",
-      "64%"
-    ],
-    "type": "semantic"
+    "id": 3,
+    "category": "multi_chunk_reasoning",
+    "question": "Can a Professional tier customer use Beacon Compass?",
+    "expected_answer": "No. Beacon Compass is available only to Enterprise tier customers. The pricing table confirms it is listed as 'Not available' for both Standard and Professional tiers.",
+    "expected_keywords": ["No", "Enterprise", "Not available", "Standard", "Professional"],
+    "relevant_section": "Product Line > Beacon Compass + Sales > Pricing Tiers",
+    "difficulty": "medium"
   },
   {
-    "question": "What is the company's annual recurring revenue?",
-    "expected_answer": "NovaTech's annual recurring revenue reached $187 million in Q4 2025, representing 28% year-over-year growth.",
-    "expected_keywords": [
-      "187 million",
-      "Q4 2025",
-      "28%"
-    ],
-    "type": "factual"
+    "id": 4,
+    "category": "multi_chunk_reasoning",
+    "question": "If I'm on the Standard tier, can I use SentinelNet to reduce alert noise?",
+    "expected_answer": "No. The Standard tier only includes basic threshold-based alerting. SentinelNet is available on Professional and Enterprise tiers.",
+    "expected_keywords": ["No", "Standard", "threshold-based", "Professional", "Enterprise"],
+    "relevant_section": "Product Line > Beacon Alerts + Sales > Pricing Tiers",
+    "difficulty": "medium"
   },
   {
-    "question": "What are the latest product announcements from NovaTech?",
-    "expected_answer": "In March 2026, NovaTech announced a strategic partnership with Snowflake. In February 2026, Beacon Alerts v4.0 was released with multi-signal anomaly detection. In January 2026, a new office was opened in Berlin.",
-    "expected_keywords": [
-      "Snowflake",
-      "March 2026",
-      "Beacon Alerts v4.0",
-      "Berlin"
-    ],
-    "type": "keyword"
+    "id": 5,
+    "category": "numerical_extraction",
+    "question": "What percentage of NovaTech's ARR comes from Enterprise customers?",
+    "expected_answer": "47% of ARR comes from Enterprise customers (2,001+ employees), despite them being only 11% of the customer base.",
+    "expected_keywords": ["47%", "ARR", "Enterprise", "11%", "customer base"],
+    "relevant_section": "Sales & Customer Success > Customer Segments",
+    "difficulty": "easy"
   },
   {
-    "question": "How does Beacon RCA identify root causes of incidents?",
-    "expected_answer": "Beacon RCA uses causal inference algorithms, building a real-time dependency graph of monitored services and using Granger causality tests and graph neural networks to trace fault propagation paths.",
-    "expected_keywords": [
-      "causal inference",
-      "dependency graph",
-      "Granger causality",
-      "graph neural networks"
-    ],
-    "type": "semantic"
+    "id": 6,
+    "category": "comparison",
+    "question": "What are the differences in data retention between the three pricing tiers?",
+    "expected_answer": "Standard: 15 days, Professional: 30 days, Enterprise: 90 days.",
+    "expected_keywords": ["15 days", "30 days", "90 days", "Standard", "Professional", "Enterprise"],
+    "relevant_section": "Product Line > Beacon Core + Sales > Pricing Tiers",
+    "difficulty": "easy"
   },
   {
-    "question": "What is the median time to root cause identification with Beacon RCA?",
-    "expected_answer": "The median time to root cause identification is 3.2 minutes, down from 47 minutes manual average.",
-    "expected_keywords": [
-      "3.2 minutes",
-      "47 minutes"
-    ],
-    "type": "factual"
+    "id": 7,
+    "category": "multi_chunk_synthesis",
+    "question": "Describe NovaTech's data storage architecture from ingestion to archival.",
+    "expected_answer": "Data flows through three tiers: Hot (Apache Kafka, 180 brokers, 72-hour retention, ~3.8 TB/hr), Warm (ClickHouse, 48 sharded nodes, 2.4 PB compressed), and Cold (S3/GCS, 18.7 PB, lifecycle to Glacier/Coldline after 120 days). Ingestion uses the StreamLine protocol with sub-100ms latency.",
+    "expected_keywords": ["Kafka", "ClickHouse", "S3", "StreamLine", "72-hour", "2.4 PB", "18.7 PB", "Glacier"],
+    "relevant_section": "Engineering & Architecture > Infrastructure + Product Line > Beacon Core",
+    "difficulty": "medium"
   },
   {
-    "question": "What cloud providers does NovaTech use for its infrastructure?",
-    "expected_answer": "NovaTech runs on a multi-cloud architecture spanning AWS (primary, us-east-1 and eu-west-1) and GCP (secondary, us-central1).",
-    "expected_keywords": [
-      "AWS",
-      "GCP",
-      "us-east-1",
-      "eu-west-1",
-      "us-central1"
-    ],
-    "type": "factual"
+    "id": 8,
+    "category": "troubleshooting",
+    "question": "My Beacon agent isn't sending data. What should I check?",
+    "expected_answer": "1) Check agent status with systemctl, 2) Verify connectivity to ingest.beacon.novatech.io, 3) Confirm API key in /etc/beacon/agent.yaml matches dashboard, 4) Review /var/log/beacon/agent.log for errors.",
+    "expected_keywords": ["systemctl", "ingest.beacon.novatech.io", "API key", "agent.yaml", "agent.log"],
+    "relevant_section": "Support & Troubleshooting > Agent not reporting data",
+    "difficulty": "easy"
   },
   {
-    "question": "What is Beacon Copilot and when is it expected to launch?",
-    "expected_answer": "Beacon Copilot is an LLM-powered natural language interface for querying observability data, expected to launch in Q3 2026. It will use a fine-tuned open-source LLM with RAG over customer-specific runbooks.",
-    "expected_keywords": [
-      "LLM",
-      "natural language",
-      "Q3 2026",
-      "RAG"
-    ],
-    "type": "semantic"
+    "id": 9,
+    "category": "temporal_reasoning",
+    "question": "When is Beacon Copilot expected to launch, and what technology will it use?",
+    "expected_answer": "Q3 2026. It will be an LLM-powered natural language interface using a fine-tuned open-source LLM (likely Llama 4) with RAG over customer-specific runbooks and documentation.",
+    "expected_keywords": ["Q3 2026", "LLM", "natural language", "Llama 4", "RAG"],
+    "relevant_section": "Recent News & Roadmap > Product Roadmap",
+    "difficulty": "medium"
   },
   {
-    "question": "What security certifications does NovaTech hold?",
-    "expected_answer": "NovaTech holds SOC 2 Type II, ISO 27001:2022, offers HIPAA BAA for healthcare customers, is GDPR compliant, and has FedRAMP authorization in progress.",
-    "expected_keywords": [
-      "SOC 2",
-      "ISO 27001",
-      "HIPAA",
-      "GDPR",
-      "FedRAMP"
-    ],
-    "type": "keyword"
+    "id": 10,
+    "category": "multi_chunk_reasoning",
+    "question": "Which customer generates the highest event volume, and how does it compare to the platform average?",
+    "expected_answer": "Vertex Gaming at ~680 million events/day. The platform-wide average is 4.2 billion events/day across 2,600+ customers, making Vertex responsible for roughly 16% of total volume.",
+    "expected_keywords": ["Vertex Gaming", "680 million", "4.2 billion", "2,600", "16%"],
+    "relevant_section": "Company Overview + Sales > Key Accounts",
+    "difficulty": "hard"
   },
   {
-    "question": "How much cloud cost savings did Atlas Financial Group achieve?",
-    "expected_answer": "Atlas Financial Group achieved $1.2 million in annual cloud cost savings using Beacon Compass.",
-    "expected_keywords": [
-      "1.2M",
-      "Atlas Financial",
-      "Beacon Compass"
-    ],
-    "type": "factual"
+    "id": 11,
+    "category": "policy_lookup",
+    "question": "I've been at NovaTech for 6 years. Am I eligible for a sabbatical, and how long is it?",
+    "expected_answer": "Yes. Employees with 5+ years of tenure are eligible for a 4-week paid sabbatical.",
+    "expected_keywords": ["5+", "4-week", "paid sabbatical"],
+    "relevant_section": "HR & Company Policies > PTO & Leave",
+    "difficulty": "easy"
   },
   {
-    "question": "What is the parental leave policy at NovaTech?",
-    "expected_answer": "NovaTech offers 16 weeks paid parental leave for primary caregivers and 8 weeks paid for secondary caregivers.",
-    "expected_keywords": [
-      "16 weeks",
-      "8 weeks",
-      "primary caregiver",
-      "secondary caregiver"
-    ],
-    "type": "factual"
+    "id": 12,
+    "category": "negation_test",
+    "question": "Does NovaTech have FedRAMP authorization?",
+    "expected_answer": "Not yet. FedRAMP authorization is in progress and expected to be completed in Q3 2026.",
+    "expected_keywords": ["in progress", "Q3 2026", "FedRAMP"],
+    "relevant_section": "Security & Compliance",
+    "difficulty": "medium"
   },
   {
-    "question": "What caused the most significant recent incident at NovaTech?",
-    "expected_answer": "On June 14, 2025, a misconfigured Kafka partition rebalance caused a 43-minute ingestion delay affecting 12% of customers.",
-    "expected_keywords": [
-      "Kafka",
-      "partition rebalance",
-      "43-minute",
-      "12%",
-      "June 14"
-    ],
-    "type": "semantic"
+    "id": 13,
+    "category": "entity_resolution",
+    "question": "Who is Dr. Elena Vasquez and what does she do?",
+    "expected_answer": "Dr. Elena Vasquez is the sole Distinguished Engineer (E6) at NovaTech. She leads the Prism query engine team.",
+    "expected_keywords": ["Elena Vasquez", "Distinguished Engineer", "E6", "Prism", "query engine"],
+    "relevant_section": "HR & Company Policies > Engineering Ladder",
+    "difficulty": "medium"
   },
   {
-    "question": "What should you do if the Beacon agent is not reporting data?",
-    "expected_answer": "Verify the agent is running with systemctl status, check connectivity to the ingestion endpoint, ensure the API key matches, and review agent logs for errors.",
-    "expected_keywords": [
-      "systemctl",
-      "beacon-agent",
-      "API key",
-      "agent.log"
-    ],
-    "type": "keyword"
+    "id": 14,
+    "category": "multi_chunk_synthesis",
+    "question": "What security measures does NovaTech have in place for protecting customer data?",
+    "expected_answer": "AES-256 encryption at rest, TLS 1.3 in transit, CMEK support for Enterprise customers via AWS KMS/GCP Cloud KMS, SAML 2.0/OIDC SSO, RBAC with 12 predefined roles + custom roles, mandatory MFA for admins, SOC 2 Type II, ISO 27001, HIPAA BAA available, GDPR compliant with EU data residency option, and a public bug bounty program via HackerOne.",
+    "expected_keywords": ["AES-256", "TLS 1.3", "CMEK", "SAML 2.0", "RBAC", "MFA", "SOC 2", "ISO 27001", "HackerOne"],
+    "relevant_section": "Security & Compliance (entire section)",
+    "difficulty": "hard"
   },
   {
-    "question": "Who is the Distinguished Engineer at NovaTech and what do they lead?",
-    "expected_answer": "Dr. Elena Vasquez is the Distinguished Engineer (E6), and she leads the Prism query engine team.",
-    "expected_keywords": [
-      "Elena Vasquez",
-      "Distinguished Engineer",
-      "Prism",
-      "query engine"
-    ],
-    "type": "factual"
+    "id": 15,
+    "category": "counterfactual",
+    "question": "Can I use the GraphQL API in production?",
+    "expected_answer": "The GraphQL API is currently in beta (released November 2024). While available, it may not be fully production-ready. The REST API v3 is the stable production API.",
+    "expected_keywords": ["beta", "November 2024", "REST API v3"],
+    "relevant_section": "Engineering & Architecture > API & Developer Platform",
+    "difficulty": "medium"
+  },
+  {
+    "id": 16,
+    "category": "unanswerable",
+    "question": "What programming languages are used in NovaTech's backend services?",
+    "expected_answer": "The knowledge base does not explicitly state the backend programming languages. It mentions SDKs for Python, Go, Java, Node.js, and Ruby, and references Kafka, ClickHouse, and Kubernetes, but does not specify the languages the platform itself is built in.",
+    "expected_keywords": ["Python", "Go", "Java", "Node.js"],
+    "relevant_section": "N/A — tests the system's ability to say 'I don't know'",
+    "difficulty": "hard"
+  },
+  {
+    "id": 17,
+    "category": "multi_hop",
+    "question": "How much would it cost per month for a company with 300 hosts that needs root cause analysis and 30-day data retention?",
+    "expected_answer": "They'd need Professional tier ($35/host/mo) + RCA add-on ($12/host/mo) = $47/host/mo x 300 hosts = $14,100/month. Professional tier includes 30-day retention and supports up to 250 hosts, so they may need to negotiate a custom arrangement or move to Enterprise.",
+    "expected_keywords": ["35", "12", "Professional", "250 hosts"],
+    "relevant_section": "Product Line > Beacon Core + Beacon RCA + Sales > Pricing Tiers",
+    "difficulty": "hard"
+  },
+  {
+    "id": 18,
+    "category": "recency_test",
+    "question": "What is the latest product announcement from NovaTech?",
+    "expected_answer": "March 2026: A strategic partnership with Snowflake to enable direct querying of Beacon observability data from Snowflake's Data Cloud, expected GA in Q2 2026.",
+    "expected_keywords": ["Snowflake", "March 2026", "Q2 2026", "partnership"],
+    "relevant_section": "Recent News & Roadmap > Recent Announcements",
+    "difficulty": "easy"
+  },
+  {
+    "id": 19,
+    "category": "edge_case_detail",
+    "question": "What is the canary deployment error rate threshold that triggers an automatic rollback?",
+    "expected_answer": "0.5% error rate triggers automatic rollback during the canary phase (5% traffic shift).",
+    "expected_keywords": ["0.5%", "rollback", "canary", "5%", "traffic"],
+    "relevant_section": "Engineering & Architecture > Deployment & CI/CD",
+    "difficulty": "medium"
+  },
+  {
+    "id": 20,
+    "category": "conversational",
+    "question": "I'm a new engineer at NovaTech. What level would I be and what's expected of me?",
+    "expected_answer": "You'd likely start as E1 (Associate Software Engineer), the entry-level position for 0-2 years experience. You're expected to complete well-defined tasks with guidance. You'll be reviewed semi-annually on impact, craft, collaboration, and growth.",
+    "expected_keywords": ["E1", "Associate Software Engineer", "semi-annually", "guidance"],
+    "relevant_section": "HR > Engineering Ladder + Performance Reviews",
+    "difficulty": "medium"
   }
 ]
