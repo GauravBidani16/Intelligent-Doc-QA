@@ -87,7 +87,6 @@ Inteligent-Doc-QA/
 |   |       |- eval_dataset.json    - 20-question evaluation dataset
 |   |- requirements.txt
 |   |- .env                         - Environment variables (gitignored)
-|   |- .env.example                 - Example environment variables
 |- scripts/
 |   |- evaluate_rag.py              - Retrieval evaluation script
 |   |- evaluate_generation.py       - Generation quality evaluation script
@@ -123,13 +122,7 @@ pip install -r backend/requirements.txt
 
 **4. Configure environment variables**
 
-Copy the example file and fill in your API key:
-
-```bash
-cp backend/.env.example backend/.env
-```
-
-Open `backend/.env` and set the following values:
+Create `backend/.env` and set the following values:
 
 ```
 GOOGLE_API_KEY=your-gemini-api-key
