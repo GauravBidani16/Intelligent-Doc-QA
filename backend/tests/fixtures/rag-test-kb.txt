@@ -1,0 +1,254 @@
+# NovaTech Solutions — Internal Knowledge Base
+
+## Company Overview
+
+NovaTech Solutions is a mid-sized enterprise software company founded in 2011 by Dr. Priya Shankar and Marcus Ellison in Austin, Texas. The company specializes in building cloud-native observability and incident management platforms for DevOps teams. As of fiscal year 2025, NovaTech employs 1,340 people across offices in Austin (HQ), Toronto, Berlin, and Bangalore. Annual recurring revenue (ARR) reached $187 million in Q4 2025, representing 28% year-over-year growth.
+
+NovaTech's flagship product is **Beacon**, an AI-powered observability platform that unifies logs, metrics, and traces into a single pane of glass. Beacon serves over 2,600 enterprise customers, including 14 Fortune 500 companies. The platform processes an average of 4.2 billion events per day across all customer deployments.
+
+The company completed a Series D funding round in March 2024, raising $120 million at a $1.4 billion valuation. Lead investors included Crestview Capital and Meridian Ventures, with participation from existing investors Foundry Group and Horizon Partners.
+
+---
+
+## Product Line
+
+### Beacon Core
+
+Beacon Core is the foundational observability layer. It provides real-time log aggregation, metric collection, and distributed tracing. Beacon Core supports over 450 integrations out of the box, including AWS CloudWatch, Datadog, Prometheus, Grafana, Elasticsearch, and Kubernetes. Data ingestion is handled through the proprietary **StreamLine** protocol, which achieves sub-100ms latency from event emission to dashboard availability.
+
+**Pricing:** Beacon Core is billed at $18 per host per month for the Standard tier, $35 per host per month for Professional, and custom pricing for Enterprise contracts exceeding 500 hosts.
+
+**Key technical specs:**
+- Maximum ingestion rate: 2.1 million events per second per cluster
+- Default data retention: 15 days (Standard), 30 days (Professional), 90 days (Enterprise)
+- Query engine: NovaTech's custom-built **Prism** query language, which supports SQL-like syntax with extensions for time-series operations
+- Supported agents: Linux, Windows, macOS, Docker, Kubernetes DaemonSet
+
+### Beacon Alerts
+
+Beacon Alerts is the intelligent alerting and on-call management module. It uses a proprietary ML model called **SentinelNet** to reduce alert noise by correlating related events and suppressing duplicates. In internal benchmarks, SentinelNet reduced mean alert volume by 64% compared to threshold-based alerting alone.
+
+Beacon Alerts integrates with PagerDuty, Opsgenie, Slack, Microsoft Teams, and custom webhooks. Escalation policies support up to 8 tiers with configurable rotation schedules and override windows.
+
+**SentinelNet architecture:** SentinelNet is a transformer-based model trained on anonymized alert data from consenting customers. The model is retrained monthly using a federated learning approach to preserve data privacy. Each customer instance runs a lightweight inference model locally (approximately 200MB), with optional cloud-assisted inference for complex correlation patterns.
+
+### Beacon RCA (Root Cause Analysis)
+
+Beacon RCA was launched in September 2024 as an add-on module. It uses causal inference algorithms to automatically identify the probable root cause of incidents. The system builds a real-time dependency graph of all monitored services and uses a combination of Granger causality tests and graph neural networks to trace fault propagation paths.
+
+**Performance metrics (from 2025 Q1 customer survey):**
+- Median time to root cause identification: 3.2 minutes (down from 47 minutes manual average)
+- Accuracy of top-3 root cause suggestions: 78%
+- Customer satisfaction score (CSAT): 4.3 / 5.0
+
+Beacon RCA requires Beacon Core Professional or Enterprise tier. It is priced at an additional $12 per host per month.
+
+### Beacon Compass
+
+Beacon Compass is a cost optimization and capacity planning tool released in January 2025. It analyzes resource utilization patterns across cloud infrastructure and provides actionable recommendations for right-sizing, reserved instance purchasing, and workload scheduling.
+
+Compass connects to AWS Cost Explorer, Azure Cost Management, and GCP Billing APIs. Early adopters reported average cloud spend reductions of 22% within the first 90 days of deployment.
+
+Beacon Compass is currently available only to Enterprise tier customers and is priced separately at $8,500 per month flat fee, regardless of host count.
+
+---
+
+## Engineering & Architecture
+
+### Infrastructure
+
+NovaTech runs its SaaS platform on a multi-cloud architecture spanning AWS (primary, us-east-1 and eu-west-1) and GCP (secondary, us-central1). The platform uses Kubernetes (EKS on AWS, GKE on GCP) for container orchestration, with approximately 12,000 pods running at peak load.
+
+Data storage is tiered:
+- **Hot tier:** Apache Kafka for real-time event streaming, with a 72-hour retention window. The Kafka cluster consists of 180 brokers processing approximately 3.8 TB of data per hour.
+- **Warm tier:** ClickHouse for queryable historical data, sharded across 48 nodes with 2.4 PB of compressed data.
+- **Cold tier:** Amazon S3 and Google Cloud Storage for long-term archival, currently holding 18.7 PB of data with lifecycle policies that transition objects to Glacier/Coldline after 120 days.
+
+### Deployment & CI/CD
+
+NovaTech practices continuous deployment with an average of 47 production deployments per week. The CI/CD pipeline is built on GitHub Actions with custom runners hosted on dedicated EC2 instances. The pipeline stages include:
+
+1. **Build:** Multi-arch Docker image builds (amd64, arm64) using BuildKit
+2. **Test:** Unit tests, integration tests, and contract tests (average suite runtime: 14 minutes)
+3. **Security scan:** Snyk for dependency vulnerabilities, Trivy for container image scanning
+4. **Canary deploy:** 5% traffic shift to canary pods with automated rollback if error rate exceeds 0.5%
+5. **Full rollout:** Progressive rollout over 45 minutes using Argo Rollouts
+
+The engineering team maintains a deployment SLA of 99.2% successful deployments. The current rollback rate is 3.1%, with a mean time to rollback of 4.7 minutes.
+
+### API & Developer Platform
+
+NovaTech offers a public REST API (v3, released June 2024) and a GraphQL API (beta, released November 2024). The REST API handles approximately 890 million requests per day, with a P99 latency of 145ms.
+
+Rate limits:
+- Standard tier: 100 requests per minute per API key
+- Professional tier: 500 requests per minute per API key
+- Enterprise tier: 2,000 requests per minute per API key, with burst allowance up to 5,000
+
+The Developer Platform includes SDKs for Python, Go, Java, Node.js, and Ruby. The Python SDK is the most popular, accounting for 41% of all API traffic. Documentation is hosted at docs.novatech.io and averages 340,000 unique visitors per month.
+
+---
+
+## Security & Compliance
+
+NovaTech holds the following certifications:
+- SOC 2 Type II (renewed annually; last audit completed August 2025)
+- ISO 27001:2022
+- HIPAA BAA available for healthcare customers
+- GDPR compliant (EU data residency option available in eu-west-1)
+- FedRAMP authorization in progress (expected completion: Q3 2026)
+
+**Data encryption:** All data is encrypted at rest using AES-256 and in transit using TLS 1.3. Customer-managed encryption keys (CMEK) are supported for Enterprise tier customers through AWS KMS and GCP Cloud KMS.
+
+**Access control:** Beacon supports SAML 2.0 and OIDC for single sign-on. Role-based access control (RBAC) provides 12 predefined roles and supports custom role definitions. Multi-factor authentication (MFA) is enforced for all admin accounts and optional for standard users.
+
+**Incident history:** NovaTech has maintained 99.97% uptime over the trailing 12 months. The most significant recent incident occurred on June 14, 2025, when a misconfigured Kafka partition rebalance caused a 43-minute ingestion delay affecting 12% of customers. A full post-mortem was published within 72 hours.
+
+**Bug bounty program:** NovaTech runs a public bug bounty program through HackerOne with payouts ranging from $250 (low severity) to $15,000 (critical severity). Since inception in 2022, the program has received 1,847 submissions and paid out $312,000 in total bounties.
+
+---
+
+## Sales & Customer Success
+
+### Pricing Tiers
+
+| Feature | Standard | Professional | Enterprise |
+|---|---|---|---|
+| Hosts included | Up to 50 | Up to 250 | Unlimited |
+| Data retention | 15 days | 30 days | 90 days |
+| Beacon Alerts | Basic (threshold only) | Full (incl. SentinelNet) | Full + custom models |
+| Beacon RCA | Not available | Add-on ($12/host/mo) | Included |
+| Beacon Compass | Not available | Not available | Add-on ($8,500/mo) |
+| Support | Email (48hr SLA) | Email + chat (4hr SLA) | Dedicated CSM + 1hr SLA |
+| SSO / SAML | Not available | Available | Available |
+| API rate limit | 100 req/min | 500 req/min | 2,000 req/min |
+
+### Customer Segments
+
+NovaTech's customer base breaks down as follows:
+- **SMB (1–200 employees):** 58% of customers, 14% of ARR
+- **Mid-market (201–2,000 employees):** 31% of customers, 39% of ARR
+- **Enterprise (2,001+ employees):** 11% of customers, 47% of ARR
+
+The average contract value (ACV) for Enterprise customers is $385,000 per year. The net revenue retention rate across all segments is 118%, driven by upsell into higher tiers and adoption of add-on modules.
+
+### Key Accounts
+
+- **Meridian Health Systems:** 3,200 hosts, Enterprise tier, using Beacon Core + Alerts + RCA. Largest healthcare customer.
+- **Atlas Financial Group:** 1,800 hosts, Enterprise tier, early adopter of Beacon Compass. Achieved $1.2M in annual cloud cost savings.
+- **Pinnacle Logistics:** 950 hosts, Professional tier. Largest logistics customer; considering Enterprise upgrade in Q2 2026.
+- **Vertex Gaming:** 2,400 hosts, Enterprise tier. Highest event volume customer at approximately 680 million events per day.
+
+---
+
+## HR & Company Policies
+
+### Remote Work Policy
+
+NovaTech operates on a hybrid model. Employees within 50 miles of an office are expected to be in-office a minimum of 2 days per week (Tuesday and Thursday are designated anchor days). Fully remote positions are available for roles that do not require physical presence and must be approved by the VP of the respective department.
+
+Remote employees receive a one-time $1,500 home office stipend and a $75/month internet reimbursement. All employees, regardless of location, are eligible for the $5,000 annual professional development budget.
+
+### PTO & Leave
+
+- **PTO:** Unlimited PTO policy with a minimum of 15 days encouraged per year. Managers review utilization quarterly.
+- **Sick leave:** 10 days per year, separate from PTO.
+- **Parental leave:** 16 weeks paid for primary caregivers, 8 weeks paid for secondary caregivers.
+- **Bereavement leave:** 5 days for immediate family, 3 days for extended family.
+- **Sabbatical:** Employees with 5+ years of tenure are eligible for a 4-week paid sabbatical.
+
+### Performance Reviews
+
+NovaTech uses a semi-annual performance review cycle (January and July). Reviews follow a 360-degree feedback model with input from managers, peers, and direct reports. Performance is evaluated on four dimensions:
+
+1. **Impact:** Measurable contribution to team and company goals
+2. **Craft:** Technical or functional excellence
+3. **Collaboration:** Effectiveness in cross-functional work
+4. **Growth:** Demonstrated learning and skill development
+
+Compensation adjustments are determined annually in March based on performance ratings, market benchmarking (using Radford and Levels.fyi data), and internal equity analysis.
+
+### Engineering Ladder
+
+The engineering career ladder at NovaTech consists of the following levels:
+
+- **E1 — Associate Software Engineer:** Entry-level, 0–2 years experience. Expected to complete well-defined tasks with guidance.
+- **E2 — Software Engineer:** 2–4 years experience. Owns features end-to-end within a single service.
+- **E3 — Senior Software Engineer:** 4–7 years experience. Leads technical design for complex projects spanning multiple services. Mentors junior engineers.
+- **E4 — Staff Engineer:** 7–12 years experience. Drives architectural decisions at the platform level. Represents engineering in cross-functional leadership discussions.
+- **E5 — Principal Engineer:** 12+ years experience. Sets technical direction for entire product areas. 3–5 engineers hold this title at any given time.
+- **E6 — Distinguished Engineer:** Rare title reserved for exceptional individual contributors with company-wide technical influence. Currently held by 1 person: Dr. Elena Vasquez, who leads the Prism query engine team.
+
+### Benefits
+
+- Medical, dental, and vision insurance (company covers 90% of premiums for employees, 70% for dependents)
+- 401(k) with 4% company match, vesting immediately
+- Employee stock purchase plan (ESPP) with 15% discount
+- Mental health support through Lyra Health (12 sessions per year)
+- Commuter benefits up to $300/month pre-tax
+- Annual company retreat (last held in Cancún, October 2025)
+
+---
+
+## Recent News & Roadmap
+
+### Recent Announcements
+
+- **March 2026:** NovaTech announced a strategic partnership with Snowflake to enable direct querying of Beacon observability data from Snowflake's Data Cloud. The integration is expected to be generally available in Q2 2026.
+- **February 2026:** Beacon Alerts v4.0 released, introducing multi-signal anomaly detection that combines log patterns, metric deviations, and trace latency spikes into unified alert events. Early feedback indicates a further 18% reduction in alert noise over SentinelNet v3.
+- **January 2026:** NovaTech opened a new office in Berlin's Kreuzberg district, expanding the European engineering team to 85 engineers. The Berlin office will focus primarily on Beacon Compass and GDPR-related compliance features.
+- **December 2025:** Dr. Priya Shankar was named to Forbes' "50 Over 50" list for her contributions to the observability industry.
+
+### Product Roadmap (2026)
+
+- **Q2 2026:** Launch of Beacon Compass for GCP (currently AWS and Azure only). Snowflake integration GA.
+- **Q3 2026:** Introduction of **Beacon Copilot**, an LLM-powered natural language interface for querying observability data. Internal alpha testing has shown a 35% reduction in mean time to insight for non-technical stakeholders. Expected to use a fine-tuned version of an open-source LLM (likely Llama 4) with RAG over customer-specific runbooks and documentation.
+- **Q4 2026:** FedRAMP authorization expected. Launch of Beacon Core Lite, a free tier limited to 5 hosts and 7-day retention, aimed at developer adoption and PLG (product-led growth) motion.
+- **Ongoing:** Continued investment in the Prism query engine, with planned support for federated queries across multiple Beacon deployments and cross-customer benchmarking (opt-in, anonymized).
+
+---
+
+## Support & Troubleshooting
+
+### Common Issues
+
+**Issue: Agent not reporting data**
+- Verify the agent is running: `sudo systemctl status beacon-agent`
+- Check connectivity to the ingestion endpoint: `curl -v https://ingest.beacon.novatech.io/v1/health`
+- Ensure the API key in `/etc/beacon/agent.yaml` matches the key shown in the Beacon dashboard under Settings >> API Keys
+- Review agent logs at `/var/log/beacon/agent.log` for authentication or network errors
+
+**Issue: High query latency in Prism**
+- Check the time range of your query; queries spanning more than 7 days on Standard tier may be slow due to data being partially archived
+- Use the `SAMPLE` clause for exploratory queries: `SELECT * FROM logs SAMPLE 0.01 WHERE service = 'api-gateway'`
+- Ensure you are filtering by indexed fields (service, host, severity) before applying full-text search
+- Contact support if P99 query latency consistently exceeds 5 seconds on Professional or Enterprise tiers
+
+**Issue: Alert storms / excessive notifications**
+- Verify SentinelNet is enabled (Professional and Enterprise tiers only) under Alerts >> Settings >> Noise Reduction
+- Review correlation window settings; default is 5 minutes but may need adjustment for high-throughput environments
+- Check for misconfigured threshold alerts that may be firing on transient metric spikes; consider using the `sustained_for` parameter (e.g., `sustained_for: 10m`)
+- Use the Alert Analytics dashboard to identify the top 10 noisiest alert rules and tune or disable them
+
+**Issue: SSO / SAML configuration errors**
+- NovaTech supports SAML 2.0 with IdPs including Okta, Azure AD, OneLogin, and Google Workspace
+- Ensure the ACS URL is set to `https://<your-subdomain>.beacon.novatech.io/auth/saml/callback`
+- The Entity ID should be `urn:beacon:novatech:<your-org-id>`
+- Download the NovaTech SP metadata from Settings >> Security >> SAML >> Download Metadata
+- Common error: clock skew between IdP and Beacon servers; ensure NTP is configured on your IdP server
+
+---
+
+## Glossary
+
+- **ARR:** Annual Recurring Revenue
+- **ACV:** Average Contract Value
+- **Beacon:** NovaTech's flagship observability platform
+- **CMEK:** Customer-Managed Encryption Keys
+- **CSM:** Customer Success Manager
+- **NRR:** Net Revenue Retention
+- **PLG:** Product-Led Growth
+- **Prism:** NovaTech's proprietary query language for observability data
+- **RCA:** Root Cause Analysis
+- **SentinelNet:** NovaTech's ML-based alert correlation and noise reduction model
+- **StreamLine:** NovaTech's low-latency data ingestion protocol

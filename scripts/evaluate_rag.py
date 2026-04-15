@@ -72,7 +72,7 @@ def run_evaluation(mode: str = "hybrid", rerank: bool = True):
 	for i, item in enumerate(dataset):
 		question = item["question"]
 		expected_keywords = item["expected_keywords"]
-		q_type = item["type"]
+		q_category = item["category"]
 
 		# Retrieve chunks based on mode
 		start_time = time.time()
@@ -104,7 +104,7 @@ def run_evaluation(mode: str = "hybrid", rerank: bool = True):
 
 		result = {
 		    "question": question,
-		    "type": q_type,
+		    "category": q_category,
 		    "recall": metrics["recall"],
 		    "found_keywords": metrics["found_keywords"],
 		    "missing_keywords": metrics["missing_keywords"],
@@ -114,7 +114,7 @@ def run_evaluation(mode: str = "hybrid", rerank: bool = True):
 		results_log.append(result)
 
 		status = "PASS" if metrics["recall"] == 1.0 else "PARTIAL" if metrics["recall"] > 0 else "FAIL"
-		print(f"  [{status}] Q{i+1} ({q_type}): recall={metrics['recall']:.2f} | {retrieval_time*1000:.0f}ms | {question[:50]}...")
+		print(f"  [{status}] Q{i+1} ({q_category}): recall={metrics['recall']:.2f} | {retrieval_time*1000:.0f}ms | {question[:50]}...")
 
 	# Summary
 	avg_recall = sum(r["recall"] for r in results_log) / len(results_log)
