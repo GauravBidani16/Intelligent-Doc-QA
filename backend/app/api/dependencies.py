@@ -1,5 +1,5 @@
 """
-Singleton services — initialized once, shared across requests.
+Singleton services - these are only initialized once and shared across requests.
 """
 from functools import lru_cache
 from backend.app.core.embedder import EmbeddingService

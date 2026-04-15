@@ -28,4 +28,4 @@ app.include_router(query.router, prefix="/api", tags=["Query"])
 async def startup():
     """Pre-load heavy models on startup so first request isn't slow."""
     from backend.app.api.dependencies import get_rag_pipeline
-    get_rag_pipeline()  # Triggers model loading
+    get_rag_pipeline()  # Load model

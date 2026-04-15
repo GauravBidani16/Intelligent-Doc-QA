@@ -1,5 +1,5 @@
 """
-ChromaDB wrapper. Decoupled from vendor — could swap to Pinecone/Weaviate later.
+ChromaDB wrapper
 """
 from dataclasses import dataclass
 from typing import List, Dict, Optional
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class SearchResult:
     chunk_text: str
     metadata: Dict
-    score: float  # 0-1, higher is better
+    score: float
 
 
 class VectorStore:
@@ -61,7 +61,7 @@ class VectorStore:
         )
         search_results = []
         for i in range(len(results["ids"][0])):
-            score = 1 - results["distances"][0][i]  # cosine distance → similarity
+            score = 1 - results["distances"][0][i]  # cosine distance >> similarity
             search_results.append(SearchResult(
                 chunk_text=results["documents"][0][i],
                 metadata=results["metadatas"][0][i],
@@ -70,7 +70,7 @@ class VectorStore:
         return search_results
     
     def get_all_documents(self, collection_name: str = "default") -> dict:
-        """Retrieve all documents and metadata from a collection for BM25 indexing."""
+        #Retrieve all documents and metadata from a collection for BM25 indexing
         collection = self._get_or_create_collection(collection_name)
         results = collection.get(
             include=["documents", "metadatas"]
